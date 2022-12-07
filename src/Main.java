@@ -9,6 +9,8 @@ public class Main {
         int point[] = new int[]{1, 2, 3};
         Deck k = new Deck(rank, suit, point);
         System.out.print(k.deal());
+        k.shuffle();
+        System.out.print(k.deal());
 
     }
 }
