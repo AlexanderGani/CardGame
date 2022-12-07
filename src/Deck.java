@@ -4,10 +4,13 @@ public class Deck {
     private int cardsLeft;
 
     public Deck(String[] rank, String[] suit, int[] point) {
-        for(int i = 0; i < suit.length; i++) {
-            cards = new ArrayList<Card>();
-            Card s = new Card(rank[i], suit[i], point[i]);
-            cards.add(s);
+        cards = new ArrayList<Card>();
+        //needs to reset after i reaches max value, keep other thing constant
+        for (int j = 0; j < suit.length; j++) {
+            for (int i = 0; i < rank.length; i++) {
+                Card s = new Card(rank[i], suit[j], point[i]);
+                cards.add(s);
+            }
         }
         cardsLeft = cards.size();
         shuffle();
@@ -30,18 +33,19 @@ public class Deck {
         }
         else {
             cardsLeft--;
-            return cards.get(cardsLeft + 1);
+            return cards.get(cardsLeft);
         }
     }
 
     public void shuffle() {
-        for(int i = cards.size(); i > 0; i--) {
-            int index = (int)(Math.random() * cards.size());
-            Card l = cards.get(i);
-            cards.remove(i);
-            cards.add(i, cards.get(index));
-            cards.remove(index);
-            cards.add(index, l);
+        for(int i = cardsLeft - 1; i > 0; i--) {
+            int index = (int)(Math.random() * cardsLeft - 1);
+            Card j = cards.get(index);
+            cards.set(index, cards.get(i));
+            cards.set(i, j);
+            }
+        for (int k = 0; k < cardsLeft; k++) {
+            System.out.println(cards.get(k));
         }
     }
 }

@@ -4,13 +4,10 @@ public class Main {
         //crazy eights
         Card one = new Card("Jack", "Spades", 1);
         one.toString();
-        String rank[] = new String[]{"A", "2", "3"};
+        String rank[] = new String[]{"A", "1"};
         String suit[] = new String[]{"Hearts", "Clubs"};
-        int point[] = new int[]{1, 2, 3};
+        int point[] = new int[]{1, 2};
         Deck k = new Deck(rank, suit, point);
-        System.out.print(k.deal());
         k.shuffle();
-        System.out.print(k.deal());
-
     }
 }
