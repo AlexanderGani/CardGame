@@ -9,5 +9,7 @@ public class Main {
         int point[] = new int[]{1, 2};
         Deck k = new Deck(rank, suit, point);
         k.shuffle();
+        Player o = new Player("jawn", 1);
+        o.toString();
     }
 }
