@@ -28,12 +28,11 @@ public class Game {
         Scanner scan = new Scanner(System.in);
         printInstructions();
         //if cardsLeft in hand == 0, call win check, else continue - also present options based on next card in rotation
-        System.out.println("Player, what is your name?");
+        System.out.println("Player 1, what is your name?");
         String name = scan.nextLine();
         o.setName(name);
         System.out.println("Single Player or Two players (input 1 or 2):");
         int choice = scan.nextInt();
-
         if (choice == 1) {
             x.setName("Computer");
         }
@@ -53,81 +52,85 @@ public class Game {
         }
         Card current = one.deal();
         System.out.println("First Card is " + current);
-        while(!one.isEmpty() || !o.getHand().isEmpty() || !x.getHand().isEmpty()) {
+        //allow user to pick card
+        while(!o.getHand().isEmpty() && !x.getHand().isEmpty()) {
             //one needs to be presented options
-            System.out.println("Player one turn: ");
-
-                for (int m = 0; m < o.getHand().size(); m++) {
-                    if(o.getCard(m).getSuit().equals(current.getSuit())
-                            || o.getCard(m).getRank().equals(current.getRank()) || o.getCard(m).getRank().equals("8")) {
-                        System.out.println("Select option (1/2)\n1. Discard " + o.getCard(m) + "\n2. draw");
-                        int choice2 = scan.nextInt();
-                        while (!(choice2 == 1) && !(choice2 == 2)) {
-                            System.out.println("Invalid Input, input option 1 or 2");
-                            choice2 = scan.nextInt();
-                        }
-                        if (choice2 == 1) {
-                            current = o.getCard(m);
-                            System.out.println("Current card is " + o.getCard(m));
-                            o.removeCard(o.getCard(m));
-                            System.out.println("Hand " + o.getHand());
-                        }
-                        else {
-                            Card drew = one.deal();
-                            o.addCard(drew);
-                            System.out.println("Drew a " + drew);
-                            break;
-                        }
-
-                    }
-
+            System.out.println(o.getName() + "'s turn: ");
+            for (int m = 0; m < o.getHand().size(); m++) {
+                System.out.println(o.getHand());
+                System.out.println("Select Card to Play (by index, starting at 0) or Draw a Card (-1): ");
+                int input = scan.nextInt();
+                if (input == -1) {
+                    Card draw = one.deal();
+                    System.out.println("Drawing...\n Drew a " + draw);
+                    o.addCard(draw);
+                    break;
+                } else if (current.getSuit().equals(o.getCard(input).getSuit())
+                        || current.getRank().equals(o.getCard(input).getRank()) || o.getCard(input).getRank().equals("8")) {
+                    current = o.getCard(input);
+                    o.removeCard(o.getCard(input));
+                    System.out.println("Played a " + current);
+                    System.out.println(" Current card is a " + current);
+                } else {
+                    System.out.println("Invalid Input: Select other card");
                 }
+            }
 
-                System.out.println("Can't discard, drawing");
-                Card drew = one.deal();
-                o.addCard(drew);
-                System.out.println("Drew a " + drew);
-                System.out.println("Cards" + one.getCardsLeft());
-
-                System.out.println("Player two turn: ");
-                for(int n = 0; n < x.getHand().size(); n++) {
-                    if(x.getCard(n).getSuit().equals(current.getSuit())
-                            || x.getCard(n).getRank().equals(current.getRank()) || x.getCard(n).getRank().equals("8")) {
-                        System.out.println("Select option (1/2)\n1. Discard " + x.getCard(n) + "\n2. draw");
-                        int choice2 = scan.nextInt();
-                        while (!(choice2 == 1) && !(choice2 == 2)) {
-                            System.out.println("Invalid Input, input option 1 or 2");
-                            choice2 = scan.nextInt();
+            //two needs to be presented options
+            System.out.println(x.getName() + "'s turn: ");
+            if(!x.getName().equals("Computer")) {
+                for (int l = 0; l < x.getHand().size(); l++) {
+                    System.out.println(x.getHand());
+                    System.out.println("Select Card to Play (by index, starting at 0) or Draw a Card (-1): ");
+                    int input = scan.nextInt();
+                    if (input == -1) {
+                        Card draw = one.deal();
+                        System.out.println("Drawing...\n Drew a " + draw);
+                        x.addCard(draw);
+                        break;
+                    } else if (current.getSuit().equals(x.getCard(input).getSuit())
+                            || current.getRank().equals(x.getCard(input).getRank()) || x.getCard(input).getRank().equals("8")) {
+                        current = x.getCard(input);
+                        x.removeCard(x.getCard(input));
+                        System.out.println("Played a " + current);
+                        System.out.println(" Current card is a " + current);
+                    } else {
+                        System.out.println("Invalid Input: Select other card");
+                    }
+                }
+            }
+            else {
+                    for (int l = 0; l < x.getHand().size(); l++) {
+                        int input = 0;
+                        System.out.println("Computer Hand: " + x.getHand());
+                        if(!current.getSuit().equals(x.getCard(l).getSuit())
+                                && current.getRank().equals(x.getCard(l).getRank()) && !x.getCard(l).getRank().equals("8")) {
+                            input = -1;
                         }
-                        if (choice2 == 1) {
-                            System.out.println("Current card is " + x.getCard(n));
-                            current = x.getCard(n);
-                            x.removeCard(x.getCard(n));
-                            System.out.println("Hand: " + x.getHand());
+                        if (input == -1) {
+                            Card draw = one.deal();
+                            System.out.println("Drawing...\n Computer drew a " + draw);
+                            x.addCard(draw);
+                            break;
                         } else {
-                            drew = one.deal();
-                            x.addCard(drew);
-                            System.out.println("Drew a " + drew);
-                            break;
+                            current = x.getCard(input);
+                            x.removeCard(x.getCard(input));
+                            System.out.println("Computer played a " + current);
+                            System.out.println(" Current card is a " + current);
                         }
                     }
-                }
+            }
+            if(o.getHand().isEmpty() && x.getHand().isEmpty()) {
+                System.out.println("It's a draw");
+            }
 
-                System.out.print("Can't discard, drawing");
-                drew = one.deal();
-                x.addCard(drew);
-                System.out.println("Drew a " + drew);
-        }
+            else if (o.getHand().isEmpty()) {
+                win(o);
+            }
 
-        if(o.getHand().isEmpty() && x.getHand().isEmpty()) {
-            System.out.println("It's a draw");
-        }
-        else if (o.getHand().isEmpty()) {
-            win(o);
-        }
-
-        else {
-            win(x);
+            else if (x.getHand().isEmpty()) {
+                win(x);
+            }
         }
     }
 }
