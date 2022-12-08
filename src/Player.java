@@ -4,7 +4,7 @@ public class Player {
     private String name;
     private int points;
     public Player(String name, int points) {
-        ArrayList<Card> hand = new ArrayList<Card>();
+        hand = new ArrayList<Card>();
         this.name = name;
         points = 0;
     }
@@ -17,6 +17,10 @@ public class Player {
         return name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
     public int getPoints() {
         return points;
     }
@@ -25,8 +29,15 @@ public class Player {
         points += num;
     }
 
+    public Card getCard(int s) {
+        return hand.get(s);
+    }
     public void addCard(Card s) {
         hand.add(s);
+    }
+
+    public void removeCard(Card s) {
+        hand.remove(s);
     }
 
     public String toString() {

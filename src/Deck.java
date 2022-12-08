@@ -44,8 +44,6 @@ public class Deck {
             cards.set(index, cards.get(i));
             cards.set(i, j);
             }
-        for (int k = 0; k < cardsLeft; k++) {
-            System.out.println(cards.get(k));
         }
     }
-}
+
