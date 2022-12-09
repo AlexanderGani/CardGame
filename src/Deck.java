@@ -38,6 +38,7 @@ public class Deck {
     }
 
     public void shuffle() {
+        //creates random deck and then sets cards to switch places
         for(int i = cardsLeft - 1; i > 0; i--) {
             int index = (int)(Math.random() * cardsLeft - 1);
             Card j = cards.get(index);
